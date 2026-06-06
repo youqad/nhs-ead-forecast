@@ -1,0 +1,65 @@
+data:
+  raw_zip: data/turingAI_forecasting_challenge_dataset.csv.zip
+  cache_dir: submission/artifacts/cache
+  feature_subset:
+seed: 2026
+splits:
+  train_end: "2024-12-31"
+  val_start: "2025-01-01"
+  val_end: "2025-06-30"
+  test_start: "2025-07-01"
+  test_end: "2025-09-30"
+horizons: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+models:
+  lgbm: {enabled: false, params: {}}
+  catboost: {enabled: false, params: {}}
+  ridge: {enabled: false, params: {}}
+  ingarch: {enabled: false, params: {}}
+  nb_ingarch: {enabled: false, params: {}}
+  nb_ingarch_aq:
+    enabled: true
+    params:
+      p: 1
+      q: 2
+      count_scale: 50.0
+      alpha_init: 0.20
+      beta_init: 0.60
+      max_iter: 300
+      min_train_days: 180
+      adaptive_quantile: true
+      quantile_calm: 0.5
+      quantile_volatile: 0.7
+      spike_score_threshold: 1.0
+      volatility_window: 14
+      spike_risk_window: 7
+      spike_risk_covariates:
+        - "(Severnside) Calls Received - SevernSide"
+        - "(SWASFT) Number of NHS 111 Incidents - SWASFT"
+        - "A&E attends - paediatrics - BRI"
+  qlasso: {enabled: false, params: {}}
+  vural_rf: {enabled: false, params: {}}
+  vural_hgb: {enabled: false, params: {}}
+  tuominen_lgbm: {enabled: false, params: {}}
+  ts_baselines: {enabled: false, params: {}}
+  staton_queue: {enabled: false, params: {}}
+  regime: {enabled: false}
+  seasonal_prior:
+    enabled: true
+    lambda: 1.0
+    prior_path: submission/artifacts/cv_predictions/seasonal_residual_chronos_plus_nb_ingarch_aq_TESTAB.json
+  chronos:
+    enabled: true
+    params:
+      model_name: "amazon/chronos-2"
+      device: "cpu"
+      context_length: 1024
+blend:
+  enabled: true
+  mode: chronos_nb_ingarch_aq_seasonal_split
+  short_horizons: [1, 2, 3, 4, 5]
+  short_weight_block: 1to5
+  short_weights: submission/artifacts/cv_predictions/blend_chronos_plus_nb_ingarch_aq.json
+  long_horizons: [6, 7, 8, 9, 10]
+  long_learner: nb_ingarch_aq
+runtime:
+  per_origin_max_minutes: 50
