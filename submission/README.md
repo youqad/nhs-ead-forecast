@@ -41,9 +41,13 @@ uv run --with-requirements submission/requirements.txt --with pytest pytest -q
 
 ## Outputs
 
-- `submission/pred_matrix.csv` — 173 rows × (forecast_id + day_1..day_10)
-- `submission/report.pdf` — ≤1000 words
-- `submission/report.md` — report source
+- `submission/pred_matrix.csv`: 173 rows × (forecast_id + day_1..day_10)
+- `submission/forecast.csv`: byte-identical copy of `pred_matrix.csv`, provided so
+  the aggregator collates this entry whether it reads `pred_matrix.csv` (the
+  template filename) or `forecast.csv` (its default target name);
+  `validate_submission` enforces that the two stay identical
+- `submission/report.pdf`: ≤1000 words
+- `submission/report.md`: report source
 
 ## Results
 

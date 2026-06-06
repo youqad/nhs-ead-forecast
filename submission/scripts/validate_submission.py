@@ -31,7 +31,7 @@ def main() -> None:
     cfg = load_config(args.config)
 
     sub = Path("submission")
-    for required in [sub / "pred_matrix.csv", sub / "report.pdf"]:
+    for required in [sub / "pred_matrix.csv", sub / "report.pdf", sub / "forecast.csv"]:
         if not required.exists():
             fail(f"missing required file: {required}")
     if (sub / "mse_summary.csv").exists():
@@ -72,6 +72,13 @@ def main() -> None:
             "pred_matrix.csv SHA256 mismatch: "
             f"{actual_sha}; expected {EXPECTED_PRED_MATRIX_SHA256}"
         )
+
+    # forecast.csv is a byte-identical copy of pred_matrix.csv, shipped so the
+    # aggregator collates this entry whether its target filename is pred_matrix.csv
+    # (the NHS-EAD template name) or forecast.csv (the aggregator default). It must
+    # never drift from pred_matrix.csv.
+    if (sub / "forecast.csv").read_bytes() != (sub / "pred_matrix.csv").read_bytes():
+        fail("forecast.csv must be byte-identical to pred_matrix.csv")
 
     rpath = sub / "report.pdf"
     if rpath.stat().st_size == 0:
