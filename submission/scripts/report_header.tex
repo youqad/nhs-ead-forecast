@@ -1,0 +1,23 @@
+% Preamble additions for the submission report (pandoc -H).
+\usepackage[T1]{fontenc}
+\usepackage{XCharter}
+\usepackage[xcharter]{newtxmath}
+\usepackage[scaled=0.92]{inconsolata}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0.4em}{0.5em}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{1.1em}{0.35em}
+\usepackage{xcolor}
+\definecolor{reportlink}{HTML}{1F3A5F}
+\usepackage{parskip}
+\setlength{\emergencystretch}{2em}
+\usepackage{adjustbox}
+\newcommand{\githubicon}{\adjustbox{raise=-0.2\baselineskip}{\includegraphics[height=2.2ex]{github-logo.png}}}
+\newcommand{\huggingfaceicon}{\adjustbox{raise=-0.2\baselineskip}{\includegraphics[height=2.2ex]{hf-logo.png}}}
+\newcommand{\gh}[1]{\href{https://github.com/#1}{\githubicon~\nolinkurl{#1}}}
+\newcommand{\hf}[1]{\href{https://huggingface.co/#1}{\huggingfaceicon~\nolinkurl{#1}}}
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{arXiv:#1}}
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{doi:#1}}

@@ -1,0 +1,97 @@
+{
+  "origin": "2025-11-15",
+  "config_hash": "e78e7082227d",
+  "seed": 2026,
+  "blend": {
+    "mode": "chronos_nb_ingarch_aq_seasonal_split",
+    "short_horizons": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "short_weights_path": "submission/artifacts/cv_predictions/blend_chronos_plus_nb_ingarch_aq.json",
+    "short_weights": {
+      "strategy": "joint",
+      "weights": [
+        0.8488178225963345,
+        0.15118217740366544
+      ],
+      "learners": [
+        "chronos",
+        "nb_ingarch_aq"
+      ],
+      "mse_mean": 0.0734325644026808,
+      "mse_joint": 0.07342700307269952
+    },
+    "long_horizons": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "long_learner": "nb_ingarch_aq",
+    "seasonal_prior": {
+      "enabled": true,
+      "lambda": 1.0,
+      "prior_path": "submission/artifacts/cv_predictions/seasonal_residual_chronos_plus_nb_ingarch_aq_TESTAB.json",
+      "applied_horizons": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  },
+  "learner_outputs": {
+    "1": [
+      "chronos",
+      "nb_ingarch_aq"
+    ],
+    "2": [
+      "chronos",
+      "nb_ingarch_aq"
+    ],
+    "3": [
+      "chronos",
+      "nb_ingarch_aq"
+    ],
+    "4": [
+      "chronos",
+      "nb_ingarch_aq"
+    ],
+    "5": [
+      "chronos",
+      "nb_ingarch_aq"
+    ],
+    "6": [
+      "chronos",
+      "nb_ingarch_aq"
+    ],
+    "7": [
+      "chronos",
+      "nb_ingarch_aq"
+    ],
+    "8": [
+      "chronos",
+      "nb_ingarch_aq"
+    ],
+    "9": [
+      "chronos",
+      "nb_ingarch_aq"
+    ],
+    "10": [
+      "chronos",
+      "nb_ingarch_aq"
+    ]
+  },
+  "timings": [
+    {
+      "label": "total",
+      "seconds": 14.146685208000008
+    }
+  ]
+}

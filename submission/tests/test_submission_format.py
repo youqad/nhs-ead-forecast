@@ -5,7 +5,7 @@ from submission.src.data.schema import ASSESSMENT_ORIGINS, HORIZONS
 
 
 def test_assessment_origin_count():
-    assert len(ASSESSMENT_ORIGINS) == 173
+    assert len(ASSESSMENT_ORIGINS) == 131
 
 
 def test_horizons_one_to_ten():

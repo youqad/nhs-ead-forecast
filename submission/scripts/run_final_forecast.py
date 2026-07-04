@@ -1,4 +1,4 @@
-"""Run the full 173-origin assessment matrix.
+"""Run the full 131-origin assessment matrix.
 
 Reuses run_forecast.py logic per origin and writes the contest deliverable:
     submission/pred_matrix.csv

@@ -13,7 +13,7 @@ from submission.src.data.schema import ASSESSMENT_ORIGINS, HORIZONS
 from submission.src.utils import get_logger, load_config
 
 EXPECTED_PRED_MATRIX_SHA256 = (
-    "513dcaa45cb761c25b43c24c3835e9cb5212d21e68b57f11512367d06be8de3b"
+    "c57862850bd758b8af399d522f694e4c50b83b8b7df7a30cfcc47dcfc73e6699"
 )
 
 
@@ -34,8 +34,14 @@ def main() -> None:
     for required in [sub / "pred_matrix.csv", sub / "report.pdf", sub / "forecast.csv"]:
         if not required.exists():
             fail(f"missing required file: {required}")
-    if (sub / "mse_summary.csv").exists():
-        fail("submission/mse_summary.csv is a local diagnostic, not a contest deliverable")
+    mse_path = sub / "mse_summary.csv"
+    if not mse_path.exists():
+        fail("missing submission/mse_summary.csv (template deliverable; per-window MSE on the assessment targets)")
+    mse = pd.read_csv(mse_path)
+    if list(mse.columns) != ["forecast_id", "mse_1_5", "mse_6_10"]:
+        fail(f"mse_summary columns are {list(mse.columns)}; expected ['forecast_id', 'mse_1_5', 'mse_6_10']")
+    if len(mse) != len(ASSESSMENT_ORIGINS):
+        fail(f"mse_summary has {len(mse)} rows; expected {len(ASSESSMENT_ORIGINS)}")
 
     blend = cfg.get("blend", {})
     if blend.get("mode") != "chronos_nb_ingarch_aq_seasonal_split":
@@ -56,7 +62,7 @@ def main() -> None:
         fail(f"pred_matrix has {len(pred)} rows; expected {len(ASSESSMENT_ORIGINS)}")
     expected_ids = list(range(1, len(ASSESSMENT_ORIGINS) + 1))
     if pred["forecast_id"].tolist() != expected_ids:
-        fail("pred_matrix forecast_id must be sequential from 1 to 173")
+        fail("pred_matrix forecast_id must be sequential from 1 to 131")
     for h in HORIZONS:
         col = f"day_{h}"
         if pred[col].isna().any():

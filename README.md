@@ -21,7 +21,7 @@ Daniella Ye &middot; Munib Mesinovic &middot; Jacek Karwowski &middot; Younesse 
 
 ## The challenge
 
-Every four hours of delay admitting a patient from the emergency department raises 30-day mortality odds by about 8% (Howlett et al., 2026): an estimated 25 avoidable deaths a month in the Bristol NHS. The contest asks for a daily forecast of that count over the next ten days, across 173 sliding windows of the Oct 2025 to Mar 2026 winter, scored by mean squared error separately for **days 1-5** and **days 6-10** (two prizes).
+Every four hours of delay admitting a patient from the emergency department raises 30-day mortality odds by about 8% (Howlett et al., 2026): an estimated 25 avoidable deaths a month in the Bristol NHS. The contest asks for a daily forecast of that count over the next ten days, across 131 sliding windows of the Oct 2025 to Feb 2026 winter (window amended by the organisers on 18 Jun 2026), scored by mean squared error separately for **days 1-5** and **days 6-10** (two prizes).
 
 ## Our approach
 
@@ -36,7 +36,7 @@ The two horizons are scored independently, so each prize gets the strongest vali
 - **NB-INGARCH-AQ**: a Negative-Binomial INGARCH count model with an adaptive-quantile surge response; steadiest at the far horizon.
 - **Seasonal residual prior**: a ridge correction for calendar and holiday structure.
 
-The split is chosen on a held-out winter (the one-year-back mirror of the assessment period). Every feature respects the three-day target lag, and only the contest's provided data is used.
+The split is chosen on a held-out winter (the one-year-back counterpart of the assessment period). Every feature follows the three-day target lag, and only the contest's provided data is used.
 
 ## Reproduce
 
@@ -44,7 +44,7 @@ The split is chosen on a held-out winter (the one-year-back mirror of the assess
 # one official 10-day forecast (under the contest's one-hour rule)
 uv run python -m submission.run_forecast --config submission/config/default.yaml --origin 2025-10-01
 
-# the full 173-origin assessment matrix
+# the full 131-origin assessment matrix
 uv run python -m submission.scripts.run_final_forecast --config submission/config/default.yaml
 
 # validate the deliverables
@@ -57,12 +57,12 @@ Full method and per-prize rationale live in [`submission/README.md`](submission/
 
 | File | Contents |
 | :-- | :-- |
-| [`submission/pred_matrix.csv`](submission/pred_matrix.csv) | 173 rows of `forecast_id, day_1, ..., day_10` |
+| [`submission/pred_matrix.csv`](submission/pred_matrix.csv) | 131 rows of `forecast_id, day_1, ..., day_10` |
 | `submission/forecast.csv` | byte-identical copy of `pred_matrix.csv` (collated under either filename) |
-| [`submission/report.pdf`](submission/report.pdf) | report, max 1000 words |
+| [`submission/report.pdf`](submission/report.pdf) | the submission report |
 
 Entries are collated by the [Forecast AggregatoR](https://github.com/SPHERE-PPL/Forecast-AggregatoR) the day after the contest closes.
 
 ## License
 
-Content is licensed [CC-BY-NC-SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/), following the upstream contest. The Bristol NHS data under `data/` is the contest's own (Git LFS); see [`data/README.md`](data/README.md) for its terms.
+Content is licensed [CC-BY-NC-SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/), following the upstream contest. The Bristol NHS data under `data/` is the contest's own distribution (Git LFS), inherited unchanged from the [upstream contest repository](https://github.com/SPHERE-PPL/NHS-EAD-forecast), which also states its terms.

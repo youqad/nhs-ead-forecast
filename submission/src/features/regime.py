@@ -6,7 +6,7 @@ We fit K latent states with KMeans on operational covariates, then surface:
   - expected state distribution at O + h via P^h
   - state momentum (days since last state change)
 
-Two-clock discipline (mirrors test_leakage_invariants.py invariant 9):
+Two-clock discipline:
   - covariate-driven state uses inputs <= midday(o); h-step forecast = state @ P^h
   - target-driven state    uses inputs <= o - 3;    h-step forecast = state @ P^(h + 3)
 """
